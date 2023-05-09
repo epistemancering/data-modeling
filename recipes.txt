@@ -1,0 +1,147 @@
+Brainstorming
+
+-emails
+-passwords
+-recipe IDs
+-instructions
+-ingredients
+-list IDs
+-occasion IDs
+
+
+
+Table Ideas
+
+-users: this table will hold emails and passwords; each row will be an individual user
+-recipes: this table will hold IDs, emails, and instructions; each row will be an individual recipe
+-requirements: this table will hold recipe IDs and ingredients
+-lists: this table will hold IDs and emails; each row will be an individual list
+-groceries: this table will hold list IDs and ingredients
+-occasions: this table will hold IDs and emails; each row will be an individual occasion
+-dishes: this table will hold occasion IDs and recipe IDs
+
+
+
+Relationships
+
+
+one-to-one
+
+-none
+
+
+one-to-many
+
+-users table and recipes table because each user can have multiple recipes, but a recipe is for no more than one user
+-users table and lists table because each user can have multiple lists, but a list is only for one specific user
+-users table and occasions table because each user can have multiple occasions, but an occasion is only for one specific user
+-recipes table and requirements table because each recipe can have multiple requirements, but a requirement is only for one specific recipe
+-recipes table and dishes table because each recipe can have multiple dishes, but a dish is only for one specific recipe
+-lists table and groceries table because each list can have multiple groceries, but a grocery is only for one specific list
+-occasions table and dishes table because each occasion can have multiple dishes, but a dish is only for one specific occasion
+
+
+many-to-many
+
+-recipes table and occasions table because each recipe can have multiple occasions, and an occasion can be for multiple recipes
+
+
+
+Columns
+
+
+users
+
+-email because the prompt called for it, text because email addresses are strings
+-password because the prompt called for it, text because bcrypt hashes are strings
+
+
+recipes
+
+-id because other tables need to reference this one, serial because the value doesn't matter as long as it's unique
+-email to reference a specific user
+-instructions because the prompt called for it
+
+
+requirements
+
+-recipe_id to reference a specific recipe
+-ingredient because the prompt called for it, text because food names are strings
+
+
+lists
+
+-id because groceries will need to reference this, serial because the value doesn't matter as long as it's unique
+-email to reference a specific user
+
+
+groceries
+
+-list_id to reference a specific list
+-ingredient because the prompt called for it, text because food names are strings
+
+
+occasions
+
+-id because dishes will need to reference this, serial because the value doesn't matter as long as it's unique
+-email to reference a specific user
+
+
+dishes
+
+-occasion_id to reference a specific occasion
+-recipe_id to reference a specific recipe
+
+
+
+SQL
+
+create table users (
+	email text,
+	password text
+);
+create table recipes (
+	id serial,
+	email text,
+	instructions text
+);
+create table requirements (
+	recipe_id decimal,
+	ingredient text
+);
+create table lists (
+	id serial,
+	email text
+);
+create table groceries (
+	list_id decimal,
+	ingredient text
+);
+create table occasions (
+	id serial,
+	email text
+);
+create table dishes (
+	occasion_id decimal,
+	recipe_id decimal
+);
+insert into users (email, password) values
+	('email@email.com', '$00$00$00000000000000000000000000000000000000000000000000000')
+;
+insert into recipes (email, instructions) values
+	('email@email.com', 'combine')
+;
+insert into requirements (recipe_id, ingredient) values
+	(1, 'berry')
+;
+insert into lists (email) values
+	('email@email.com')
+;
+insert into groceries (list_id, ingredient) values
+	(1, 'berry')
+;
+insert into occasions (email) values
+	('email@email.com')
+;
+insert into dishes (occasion_id, recipe_id) values
+	(1, 1)
